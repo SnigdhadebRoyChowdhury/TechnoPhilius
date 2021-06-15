@@ -1,0 +1,44 @@
+{
+  "Comment": "Creating a serverless ELT workflow",
+  "StartAt": "Invoke Lambda function",
+  "States": {
+    "Invoke Lambda function": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-south-1:711701883488:function:myRedshiftLambdaFunction",
+      "InputPath": "$",
+      "Next": "Call Procedure"
+    },
+    "Call Procedure": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "StringMatches": "Success",
+          "Next": "Load Final Table"
+        },
+		{
+          "Variable": "$",
+          "StringMatches": "Failure",
+          "Next": "Improper End of Workflow"
+        }
+      ]
+    },
+    "Load Final Table": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:ap-south-1:711701883488:function:myLambdaForRedshiftProcedureExecution",
+      "InputPath": "$",
+	  "Next": "Proper End of Workflow"
+    },
+	
+   "Proper End of Workflow": {
+        "Type": "Pass",
+        "Result": "The workflow executed successfully",
+        "End": true
+      },
+	"Improper End of Workflow": {
+        "Type": "Pass",
+        "Result": "The workflow did not execute successfully",
+        "End": true
+      }  
+  }
+ }
