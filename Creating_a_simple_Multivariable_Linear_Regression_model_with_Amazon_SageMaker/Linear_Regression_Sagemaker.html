@@ -13263,13 +13263,15 @@ div#notebook {
 <span class="c1">#Downloading the linear learner image </span>
 <span class="n">container</span> <span class="o">=</span> <span class="n">get_image_uri</span><span class="p">(</span><span class="n">boto3</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span><span class="o">.</span><span class="n">region_name</span><span class="p">,</span> <span class="s1">&#39;linear-learner&#39;</span><span class="p">)</span>
 
+<span class="n">sess</span> <span class="o">=</span> <span class="n">sagemaker</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
+
 <span class="c1">#The below code initializes the ML object that will be the model which will predict the house value</span>
 <span class="n">linear</span> <span class="o">=</span> <span class="n">sagemaker</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">Estimator</span><span class="p">(</span><span class="n">container</span><span class="p">,</span>
           <span class="n">role</span><span class="p">,</span> 
           <span class="n">train_instance_count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> 
           <span class="n">train_instance_type</span> <span class="o">=</span> <span class="s1">&#39;ml.c4.xlarge&#39;</span><span class="p">,</span>
           <span class="n">output_path</span> <span class="o">=</span> <span class="s2">&quot;s3://linear-regression-xxxxxxxxxxxxx-bucket/linear_regression_model&quot;</span><span class="p">,</span>
-          <span class="n">sagemaker_session</span> <span class="o">=</span> <span class="n">sess</span><span class="p">)</span>
+          <span class="n">sagemaker_session</span> <span class="o">=</span> <span class="n">sagemaker_session</span><span class="p">)</span>
 
 
 <span class="n">linear</span><span class="o">.</span><span class="n">set_hyperparameters</span><span class="p">(</span><span class="n">feature_dim</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
